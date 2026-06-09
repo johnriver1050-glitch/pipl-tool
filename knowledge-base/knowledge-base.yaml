@@ -1,0 +1,154 @@
+# knowledge-base-sample.yaml
+# PIPL 合规工具知识库（示例，含少量真实规则；阈值需核对现行条文）
+# 法规变化只改本文件，不改引擎代码。
+
+version: "0.1.0"
+last_reviewed: "2026-06-08"
+legal_disclaimer_zh: "本工具输出为合规起草辅助，不构成法律意见，须经法律专业人士复核。"
+
+# ---------------------------------------------------------------------------
+# 个人信息类型分级（PIPL 第28条 / GB/T 35273）
+# ---------------------------------------------------------------------------
+personal_info_types:
+  - id: name
+    labelZh: 姓名
+    labelEn: Name
+    isSensitive: false
+    category: 基本信息
+  - id: id_card_number
+    labelZh: 身份证号
+    labelEn: ID card number
+    isSensitive: true
+    category: 特定身份
+  - id: biometric
+    labelZh: 生物识别信息（人脸/指纹）
+    labelEn: Biometric data
+    isSensitive: true
+    category: 生物识别
+  - id: medical_health
+    labelZh: 医疗健康
+    labelEn: Medical and health
+    isSensitive: true
+    category: 医疗健康
+  - id: financial_account
+    labelZh: 金融账户
+    labelEn: Financial account
+    isSensitive: true
+    category: 金融账户
+  - id: location_track
+    labelZh: 行踪轨迹
+    labelEn: Location tracking
+    isSensitive: true
+    category: 行踪轨迹
+  - id: minor_under14
+    labelZh: 不满十四周岁未成年人信息
+    labelEn: PI of minors under 14
+    isSensitive: true
+    category: 未成年人
+
+# ---------------------------------------------------------------------------
+# 规则（声明式 when → then）
+# ---------------------------------------------------------------------------
+rules:
+  - id: PIPL-SEP-CONSENT-SENSITIVE
+    source: "PIPL 第29条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when:
+      activity.involvesSensitivePi: true
+    then:
+      requires_separate_consent: true
+      requires_pipia: true              # 第55条
+      notice_must_include: ["necessity", "impact_on_rights"]  # 第30条
+    rationale_zh: "处理敏感个人信息应取得单独同意，并告知必要性及对个人权益的影响。"
+
+  - id: PIPL-SEP-CONSENT-SHARING
+    source: "PIPL 第23条"
+    effective_date: "2021-11-01"
+    when:
+      activity.hasSharing: true
+    then:
+      requires_separate_consent: true
+      requires_pipia: true              # 第55条
+      notice_must_include: ["recipient_identity", "recipient_contact", "purpose", "pi_types"]
+    rationale_zh: "向第三方提供个人信息须单独同意，并告知接收方信息、目的、方式及种类。"
+
+  - id: PIPL-SEP-CONSENT-DISCLOSURE
+    source: "PIPL 第25条"
+    effective_date: "2021-11-01"
+    when:
+      activity.isPublicDisclosure: true
+    then:
+      requires_separate_consent: true
+    rationale_zh: "公开个人信息原则上须取得单独同意。"
+
+  - id: PIPL-MINORS-14
+    source: "PIPL 第31条"
+    effective_date: "2021-11-01"
+    when:
+      activity.involvesMinorsUnder14: true
+    then:
+      requires_separate_consent: true   # 父母/监护人同意
+      requires_special_rules: true      # 须制定专门处理规则
+    rationale_zh: "处理不满十四周岁未成年人信息须取得父母或其他监护人同意，并制定专门规则。"
+
+  - id: PIPL-AUTOMATED-DECISION
+    source: "PIPL 第24/55条"
+    effective_date: "2021-11-01"
+    when:
+      activity.isAutomatedDecisionMaking: true
+    then:
+      requires_pipia: true
+      grants_right: ["explanation", "opt_out_of_targeting"]
+    rationale_zh: "自动化决策须保证透明与结果公平，个人有权要求说明并拒绝仅经自动化决策。"
+
+  - id: PIPL-CROSSBORDER-CONSENT
+    source: "PIPL 第39条"
+    effective_date: "2021-11-01"
+    when:
+      activity.hasCrossBorder: true
+    then:
+      requires_separate_consent: true
+      requires_pipia: true              # 第55条
+      notice_must_include: ["overseas_recipient_identity", "contact", "purpose", "pi_types", "rights_exercise_method"]
+    rationale_zh: "向境外提供个人信息须单独同意，并告知境外接收方相关信息及行权方式。"
+
+# ---------------------------------------------------------------------------
+# 出境机制阈值（⚠️ 示例值，须核对《促进和规范数据跨境流动规定》2024 及配套办法）
+# 引擎按从严到宽匹配：命中即返回对应机制
+# ---------------------------------------------------------------------------
+cross_border_thresholds:
+  source: "《数据出境安全评估办法》《个人信息出境标准合同办法》《促进和规范数据跨境流动规定》(2024)"
+  effective_date: "2024-03-22"
+  rules:
+    - mechanism: security_assessment      # 强制安全评估
+      when_any:
+        - org.handlesImportantData: true
+        - org.isCIIO: true                # CIIO 出境任何 PI
+        - org.piSubjectsCumulative: ">1000000"
+        - org.sensitivePiSubjectsCumulative: ">10000"
+    - mechanism: standard_contract        # 标准合同或认证
+      when_any:
+        - org.piSubjectsCumulative: "100000..1000000"
+        - org.sensitivePiSubjectsCumulative: "1..10000"
+    - mechanism: exempt                   # 低于阈值，可免机制（仍需满足告知+单独同意等）
+      when_any:
+        - org.piSubjectsCumulative: "<100000"
+  note_zh: "另有合同必需、跨境人力资源管理、紧急情况等豁免情形，应单列豁免规则后续补充。"
+
+# ---------------------------------------------------------------------------
+# 文档模板片段（{{slot}} 占位，引擎填充；此处仅示意单独同意文案）
+# ---------------------------------------------------------------------------
+templates:
+  separate_consent_crossborder:
+    titleZh: 跨境提供个人信息单独同意
+    bodyZh: |
+      为实现【{{purpose}}】之目的，我们将向位于【{{recipientCountry}}】的
+      【{{recipientName}}】提供您的下列个人信息：{{piTypes}}。
+      境外接收方联系方式：{{recipientContact}}。
+      您可通过【{{rightsMethod}}】向境外接收方行使查阅、复制、更正、删除等权利。
+      勾选下方选项即表示您对上述跨境提供单独、明确地表示同意。
+    bodyEn: |
+      To achieve [{{purpose}}], we will transfer the following personal
+      information to [{{recipientName}}] located in [{{recipientCountry}}]:
+      {{piTypes}}. ...
