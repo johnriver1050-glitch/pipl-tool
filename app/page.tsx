@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DemoStart } from "@/components/DemoStart";
 import { ArrowRight, Shield, BookOpen, Activity, FileCheck } from "lucide-react";
 
 const STATS = [
@@ -12,11 +13,11 @@ const FEATURES = [
   {
     icon: <FileCheck className="w-5 h-5 text-blue-400" />,
     title: "自动义务识别",
-    desc: "根据企业特征与处理活动，自动匹配 PIPL、DSL、网安法等 27 条规则，生成专属义务清单。",
+    desc: "根据企业特征与处理活动，自动匹配 PIPL、DSL、网安法等 29 条规则，生成专属义务清单。",
   },
   {
     icon: <BookOpen className="w-5 h-5 text-blue-400" />,
-    title: "13 部法规覆盖",
+    title: "15 部法规覆盖",
     desc: "从 PIPL 核心条款到人脸识别、出境认证、算法推荐——含 2025/2026 年最新施行的法规。",
   },
   {
@@ -78,6 +79,7 @@ export default function Home() {
               法规更新追踪
             </Link>
           </div>
+          <DemoStart />
         </div>
       </section>
 
