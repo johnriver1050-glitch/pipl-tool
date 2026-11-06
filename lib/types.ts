@@ -43,6 +43,12 @@ export interface Organization {
   /** 自当年1月1日起累计人次 */
   piSubjectsCumulative: number;
   sensitivePiSubjectsCumulative: number;
+  /** 算法推荐管理规定适用 */
+  providesAlgorithmRecommendation: boolean;
+  /** 深度合成管理规定适用 */
+  providesDeepSynthesis: boolean;
+  /** 生成式AI管理办法适用 */
+  providesGenerativeAI: boolean;
 }
 
 export interface ProcessingActivity {
@@ -51,6 +57,7 @@ export interface ProcessingActivity {
   piTypes: string[];
   involvesSensitivePi: boolean;
   involvesMinorsUnder14: boolean;
+  involvesFaceRecognition: boolean;
   legalBasis: LegalBasis;
   retentionPeriod: string;
   isAutomatedDecisionMaking: boolean;
@@ -73,6 +80,17 @@ export interface Obligation {
   code: string;
   titleZh: string;
   ruleIds: string[];
+  source: string;
+  effectiveDate: string;
+  category?: string;
+  requirementLevel?: "mandatory" | "recommended";
+  reviewStatus?: "current" | "needs_review" | "draft";
+  articleSummaryZh?: string;
+  applicabilityZh?: string;
+  exceptionsZh?: string;
+  actionItemsZh?: string[];
+  evidenceExamplesZh?: string[];
+  triggerReasonZh: string;
   requiresSeparateConsent?: boolean;
   requiresPIPIA?: boolean;
   requiresCrossBorderMechanism?: CrossBorderMechanism;

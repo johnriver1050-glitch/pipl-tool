@@ -54,6 +54,20 @@ rules:
     source: "PIPL 第29条"
     effective_date: "2021-11-01"
     superseded_by: null
+    category: "sensitive_pi"
+    requirement_level: "mandatory"
+    review_status: "current"
+    article_summary_zh: "处理敏感个人信息应取得个人的单独同意；法律、行政法规规定应取得书面同意的，从其规定。"
+    applicability_zh: "适用于处理生物识别、宗教信仰、特定身份、医疗健康、金融账户、行踪轨迹及不满十四周岁未成年人信息等敏感个人信息的活动。"
+    exceptions_zh: "是否属于敏感个人信息应结合具体业务场景判断；仅依赖一般同意通常不足以满足本规则。"
+    action_items_zh:
+      - "在处理前设计独立的单独同意流程。"
+      - "在隐私政策或弹窗中说明处理必要性及对个人权益的影响。"
+      - "上线前完成个人信息保护影响评估并留存报告。"
+    evidence_examples_zh:
+      - "单独同意记录"
+      - "敏感个人信息处理规则"
+      - "PIPIA 报告"
     when:
       activity.involvesSensitivePi: true
     then:
@@ -65,6 +79,20 @@ rules:
   - id: PIPL-SEP-CONSENT-SHARING
     source: "PIPL 第23条"
     effective_date: "2021-11-01"
+    category: "third_party_sharing"
+    requirement_level: "mandatory"
+    review_status: "current"
+    article_summary_zh: "向其他个人信息处理者提供其处理的个人信息，应向个人告知接收方信息、处理目的、处理方式和个人信息种类，并取得单独同意。"
+    applicability_zh: "适用于第三方接收个人信息后以自身目的或方式处理个人信息的共享场景。"
+    exceptions_zh: "委托处理和第三方共享应区分判断；受托方仅按委托方指令处理时通常优先适用委托处理规则。"
+    action_items_zh:
+      - "梳理所有第三方接收方及其处理目的。"
+      - "在共享前取得个人单独同意。"
+      - "在隐私政策中列明接收方名称、联系方式、目的、方式和信息类型。"
+    evidence_examples_zh:
+      - "第三方共享清单"
+      - "单独同意记录"
+      - "第三方合规评估记录"
     when:
       activity.hasSharing: true
     then:
@@ -85,6 +113,20 @@ rules:
   - id: PIPL-MINORS-14
     source: "PIPL 第31条"
     effective_date: "2021-11-01"
+    category: "minors"
+    requirement_level: "mandatory"
+    review_status: "current"
+    article_summary_zh: "处理不满十四周岁未成年人个人信息的，应取得其父母或其他监护人的同意，并制定专门的个人信息处理规则。"
+    applicability_zh: "适用于产品、服务或业务流程中明确处理不满十四周岁未成年人个人信息的场景。"
+    exceptions_zh: "无法确认年龄时，应结合业务风险设计年龄识别、监护人同意或未成年人保护流程。"
+    action_items_zh:
+      - "建立监护人同意流程。"
+      - "制定并公开未成年人个人信息处理规则。"
+      - "限制未成年人信息访问权限并缩短不必要保存期限。"
+    evidence_examples_zh:
+      - "监护人同意记录"
+      - "未成年人个人信息处理规则"
+      - "访问权限配置记录"
     when:
       activity.involvesMinorsUnder14: true
     then:
@@ -105,6 +147,20 @@ rules:
   - id: PIPL-CROSSBORDER-CONSENT
     source: "PIPL 第39条"
     effective_date: "2021-11-01"
+    category: "cross_border"
+    requirement_level: "mandatory"
+    review_status: "current"
+    article_summary_zh: "向境外提供个人信息的，应向个人告知境外接收方名称或姓名、联系方式、处理目的、处理方式、个人信息种类及个人行权方式，并取得单独同意。"
+    applicability_zh: "适用于将境内收集或产生的个人信息提供给境外接收方的场景，包括跨境系统、境外云服务和集团内部跨境访问。"
+    exceptions_zh: "出境机制阈值豁免不等于免除告知、单独同意和必要的影响评估义务。"
+    action_items_zh:
+      - "确认境外接收方、国家或地区、联系方式和处理目的。"
+      - "完成出境告知并取得单独同意。"
+      - "结合处理规模判断安全评估、标准合同、认证或豁免路径。"
+    evidence_examples_zh:
+      - "出境告知书"
+      - "跨境单独同意记录"
+      - "标准合同、认证或安全评估材料"
     when:
       activity.hasCrossBorder: true
     then:
@@ -112,6 +168,256 @@ rules:
       requires_pipia: true              # 第55条
       notice_must_include: ["overseas_recipient_identity", "contact", "purpose", "pi_types", "rights_exercise_method"]
     rationale_zh: "向境外提供个人信息须单独同意，并告知境外接收方相关信息及行权方式。"
+
+  - id: PIPL-ENTRUST-CONTRACT
+    source: "PIPL 第21条 / 合规审计指引第6条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when:
+      activity.hasEntrusting: true
+    then:
+      requires_pipia: true
+    rationale_zh: "委托第三方处理个人信息前须开展PIPIA，须签订书面合同约定委托目的、期限、方式和保护措施，并定期监督受托方。"
+
+  - id: PIPL-OVERSEAS-REPRESENTATIVE
+    source: "PIPL 第53条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when:
+      org.isOverseasEntity: true
+    then:
+      notice_must_include: ["domestic_representative_contact"]
+    rationale_zh: "境外个人信息处理者须在境内设立专门机构或指定代表，向监管机构备案，并在境内公开联系方式（PIPL第53条）。"
+
+  - id: PIPL-DPO-REQUIRED
+    source: "PIPL 第52条 / 合规审计管理办法第12条（2025年5月1日施行）"
+    effective_date: "2025-05-01"
+    superseded_by: null
+    when:
+      org.piSubjectsCumulative: ">1000000"
+    then: {}
+    rationale_zh: "处理超过100万人个人信息的处理者须指定个人信息保护负责人（DPO），负责合规审计，并公开其联系方式。"
+
+  - id: PIPL-PERIODIC-AUDIT
+    source: "个人信息保护合规审计管理办法第4条（2025年5月1日施行）"
+    effective_date: "2025-05-01"
+    superseded_by: null
+    when:
+      org.piSubjectsCumulative: ">10000000"
+    then: {}
+    rationale_zh: "处理超过1000万人个人信息的处理者须每两年至少开展一次个人信息保护合规审计，可由内部机构或委托专业机构执行。"
+
+  - id: PIPL-DATA-LOCALIZATION-CIIO
+    source: "PIPL 第40条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when:
+      org.isCIIO: true
+    then: {}
+    rationale_zh: "关键信息基础设施运营者在境内收集和产生的个人信息须在境内存储，向境外提供须经国家网信部门安全评估。"
+
+  - id: PIPL-DATA-LOCALIZATION-IMPORTANT
+    source: "PIPL 第40条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when:
+      org.handlesImportantData: true
+    then: {}
+    rationale_zh: "处理重要数据的处理者须遵守数据本地化要求，在境内存储，出境前须完成安全评估。"
+
+  - id: PIPL-SECURITY-MEASURES
+    source: "PIPL 第51条 / 合规审计指引第20条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "处理者须采取与规模相适应的安全技术措施，包括加密、去标识化、访问控制，确保个人信息的保密性、完整性与可用性。"
+
+  - id: PIPL-RIGHTS-MECHANISM
+    source: "PIPL 第49条 / 合规审计指引第17条"
+    effective_date: "2021-11-01"
+    superseded_by: null
+    when: {}
+    then:
+      grants_right: ["access", "copy", "correction", "deletion", "withdraw_consent", "transfer", "restriction"]
+    rationale_zh: "须建立便捷的权利申请受理机制，在15个工作日内响应个人的查阅、复制、更正、删除、撤回同意、转移、限制处理请求。"
+
+  # ── 数据安全法（DSL，2021-09-01 施行）──────────────────────────────────────
+
+  - id: DSL-DATA-CLASSIFICATION
+    source: "数据安全法第21条"
+    effective_date: "2021-09-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "数据处理者须根据数据的重要程度及泄露后可能造成的危害，建立数据分类分级保护制度，对不同级别数据实施差异化安全保护措施。"
+
+  - id: DSL-IMPORTANT-DATA-ASSESSMENT
+    source: "数据安全法第30条"
+    effective_date: "2021-09-01"
+    superseded_by: null
+    when:
+      org.handlesImportantData: true
+    then: {}
+    rationale_zh: "处理重要数据的组织须开展数据安全风险评估，并向有关主管部门报告；评估报告须包含数据种类、数量及可能存在的安全风险与应对措施，每年至少报告一次。"
+
+  # ── 网络安全法（CSL，2017-06-01 施行）──────────────────────────────────────
+
+  - id: CSL-NETWORK-SECURITY-POLICY
+    source: "网络安全法第21条"
+    effective_date: "2017-06-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "网络运营者须制定内部安全管理制度和操作规程，确定网络安全负责人，采取防范网络攻击/入侵的技术措施，实施网络安全等级保护制度，并对重要数据进行备份和加密。"
+
+  # ── 网络数据安全管理条例（NDSM，2025-01-01 施行）────────────────────────────
+
+  - id: NDSM-ANNUAL-RISK-ASSESSMENT
+    source: "网络数据安全管理条例第18条"
+    effective_date: "2025-01-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "网络数据处理者须每年开展数据安全风险评估，识别数据处理活动对国家安全、公共利益及个人权益的影响，将评估报告留存不少于3年，并向主管部门报告。"
+
+  - id: NDSM-LARGE-PLATFORM-GOVERNANCE
+    source: "网络数据安全管理条例第44条"
+    effective_date: "2025-01-01"
+    superseded_by: null
+    when:
+      org.piSubjectsCumulative: ">100000000"
+    then: {}
+    rationale_zh: "处理超过1亿人个人信息的大型互联网平台须设立独立数据安全监督机构（社会监督员比例不低于1/3）；须每年向社会发布数据安全与个人信息保护报告，并接受社会监督委员会监督。"
+
+  # ── 算法推荐管理规定（2022-03-01 施行）──────────────────────────────────────
+
+  - id: ALG-RECOMMENDATION-TRANSPARENCY
+    source: "互联网信息服务算法推荐管理规定第9条/第17条"
+    effective_date: "2022-03-01"
+    superseded_by: null
+    when:
+      org.providesAlgorithmRecommendation: true
+    then:
+      grants_right: ["opt_out_of_targeting", "explanation"]
+    rationale_zh: "算法推荐服务提供者须以显著方式公示算法推荐基本原理、目的意图及主要运行机制；须提供不针对个人特征的选项及便捷关闭算法推荐的功能；不得利用算法设置用户沉迷或实施不正当竞争。"
+
+  # ── 深度合成管理规定（2023-01-10 施行）──────────────────────────────────────
+
+  - id: DEEPSYNTH-CONTENT-LABEL
+    source: "互联网信息服务深度合成管理规定第17条"
+    effective_date: "2023-01-10"
+    superseded_by: null
+    when:
+      org.providesDeepSynthesis: true
+    then: {}
+    rationale_zh: "深度合成服务提供者须对生成或编辑的信息内容添加不影响用户使用的显著标识（含隐式或显式水印），保存生成日志不少于6个月，并核验用户真实身份信息。"
+
+  # ── 生成式AI管理办法（2023-08-15 施行）──────────────────────────────────────
+
+  - id: AIGC-PRE-LAUNCH-ASSESSMENT
+    source: "生成式人工智能服务管理暂行办法第5条/第17条"
+    effective_date: "2023-08-15"
+    superseded_by: null
+    when:
+      org.providesGenerativeAI: true
+    then:
+      requires_pipia: true
+    rationale_zh: "向社会公众提供生成式AI服务须在上线前通过安全评估并完成算法备案；须防范训练数据和生成内容中的个人信息泄露；须告知用户正在与AI交互，并为用户提供投诉举报渠道。"
+
+  # ── 信息安全技术 个人信息安全规范（GB/T 35273-2020）────────────────────────
+
+  - id: GBPI-MINIMUM-NECESSITY
+    source: "GB/T 35273-2020 第5.2节/第5.3节"
+    effective_date: "2020-10-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "个人信息收集须遵循最小必要原则：收集类型与处理目的直接相关，频率和数量达到最低限度，采用对个人影响最小的方式；不得以降低服务质量或拒绝提供服务为代价强迫获取超范围授权。"
+
+  # ── 个人信息安全影响评估指南（GB/T 39335-2020）──────────────────────────────
+
+  - id: PIPIA-SCOPE-STANDARD
+    source: "GB/T 39335-2020 第5节/第6节"
+    effective_date: "2020-12-01"
+    superseded_by: null
+    when:
+      activity.isAutomatedDecisionMaking: true
+    then:
+      requires_pipia: true
+    rationale_zh: "自动化决策系统须在上线前及重大变更时开展PIPIA；评估须覆盖：处理目的合法性、数据最小化、决策逻辑透明度、个人权利保障及残余风险可接受性分析，形成书面报告并定期复核。"
+
+  # ── 个人信息出境标准合同办法（2023-06-01 施行）──────────────────────────────
+
+  - id: CROSSBORDER-SCC-FILING
+    source: "个人信息出境标准合同办法第8条"
+    effective_date: "2023-06-01"
+    superseded_by: null
+    when:
+      activity.hasCrossBorder: true
+    then:
+      requires_pipia: true
+    rationale_zh: "通过标准合同方式向境外提供个人信息须使用国家网信部门发布的标准合同文本（不得擅自修改），合同生效后10个工作日内向所在地省级网信部门备案，并将备案材料留存至少3年。"
+
+  # ── 促进和规范数据跨境流动规定（2024-03-22 施行）────────────────────────────
+
+  - id: CROSSBORDER-FLOW-EXEMPTION
+    source: "促进和规范数据跨境流动规定第4条/第5条"
+    effective_date: "2024-03-22"
+    superseded_by: null
+    when:
+      activity.hasCrossBorder: true
+    then: {}
+    rationale_zh: "国际贸易、学术合作、跨国生产制造等活动中产生的不含个人信息或重要数据的数据可免于安全评估与标准合同要求；未被主管部门明确告知为重要数据的，无需作为重要数据申报出境评估。"
+
+  # ── 人脸识别技术应用安全管理办法（2025-06-01 施行）──────────────────────────
+
+  - id: FACEREC-SEPARATE-CONSENT
+    source: "人脸识别技术应用安全管理办法第10/11/13条（2025-06-01施行）"
+    effective_date: "2025-06-01"
+    superseded_by: null
+    category: "face_recognition"
+    requirement_level: "mandatory"
+    review_status: "needs_review"
+    article_summary_zh: "处理人脸识别信息应明确告知目的、方式、范围和必要性，取得单独同意，并提供非人脸识别替代方式。"
+    applicability_zh: "适用于使用人脸识别完成身份验证、门禁、登录、支付、考勤或风控等处理活动。"
+    exceptions_zh: "不得将人脸识别作为唯一验证方式；具体条文与生效后的监管解释仍需人工复核。"
+    action_items_zh:
+      - "提供非人脸识别的替代验证方案。"
+      - "取得书面或等效电子形式的单独同意。"
+      - "建立人脸信息安全管理制度并完成 PIPIA。"
+    evidence_examples_zh:
+      - "人脸识别单独同意记录"
+      - "替代验证方案说明"
+      - "人脸信息安全管理制度"
+    when:
+      activity.involvesFaceRecognition: true
+    then:
+      requires_separate_consent: true
+      requires_pipia: true
+      notice_must_include: ["necessity", "purpose", "processing_method", "impact_on_rights"]
+    rationale_zh: "处理人脸识别信息须明确告知目的、方式、范围及必要性，取得书面或等效电子形式的单独同意；须在使用前开展PIPIA；不得将人脸识别设为唯一身份验证方式，须提供其他可选验证方式；须制定专门的人脸信息安全管理制度。"
+
+  # ── 个人信息出境认证办法（2026-01-01 施行）──────────────────────────────────
+
+  - id: CROSSBORDER-CERTIFICATION-OPTION
+    source: "个人信息出境认证办法第3/5条（2026-01-01施行）"
+    effective_date: "2026-01-01"
+    superseded_by: null
+    when:
+      activity.hasCrossBorder: true
+    then: {}
+    rationale_zh: "处理个人信息满足认证办法适用条件的，可委托具备资质的专业认证机构完成个人信息保护认证，以认证为出境合规机制（与标准合同并列可选）；认证证书须在国家网信部门备案，有效期内须配合年度复核；跨国集团内部传输可优先采用认证路径。"
+
+  # ── 网络安全标准实践指南——个人信息保护合规审计要求（TC260）──────────────────
+
+  - id: AUDIT-SCOPE-STANDARD
+    source: "网络安全标准实践指南——个人信息保护合规审计要求（TC260-PG-20233A）"
+    effective_date: "2023-01-01"
+    superseded_by: null
+    when: {}
+    then: {}
+    rationale_zh: "个人信息保护合规审计须覆盖全生命周期：授权同意机制、隐私政策完整性、安全技术措施、第三方数据处理管理、跨境传输合规性及权利响应机制；审计结论须形成书面报告并推动整改闭环。"
 
 # ---------------------------------------------------------------------------
 # 出境机制阈值（⚠️ 示例值，须核对《促进和规范数据跨境流动规定》2024 及配套办法）

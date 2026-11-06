@@ -1,0 +1,157 @@
+# 法规来源追踪配置
+# url_hash: 首次检测后由 /api/check-updates 自动填写，空字符串表示尚未检测
+# last_verified: ISO 8601 日期，工具最近一次核验时间
+
+sources:
+  - id: PIPL
+    name_zh: 中华人民共和国个人信息保护法
+    url: https://www.cac.gov.cn/2021-08/20/c_1631050028355286.htm
+    effective_date: "2021-11-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - PIPL-SEP-CONSENT-SHARING
+      - PIPL-SEP-CONSENT-DISCLOSURE
+      - PIPL-MINORS-14
+      - PIPL-AUTOMATED-DECISION
+      - PIPL-CROSSBORDER-CONSENT
+      - PIPL-ENTRUST-CONTRACT
+      - PIPL-OVERSEAS-REPRESENTATIVE
+      - PIPL-DPO-REQUIRED
+      - PIPL-PERIODIC-AUDIT
+      - PIPL-SECURITY-MEASURES
+      - PIPL-RIGHTS-MECHANISM
+
+  - id: DSL
+    name_zh: 中华人民共和国数据安全法
+    url: https://www.cac.gov.cn/2021-06/11/c_1624994566919140.htm
+    effective_date: "2021-09-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - DSL-DATA-CLASSIFICATION
+      - DSL-IMPORTANT-DATA-ASSESSMENT
+
+  - id: CSL
+    name_zh: 中华人民共和国网络安全法
+    url: https://www.cac.gov.cn/2025-12/29/c_1768735112911946.htm
+    effective_date: "2017-06-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - CSL-NETWORK-SECURITY-POLICY
+
+  - id: NDSM
+    name_zh: 网络数据安全管理条例（国务院第790号令）
+    url: https://www.cac.gov.cn/2024-09/30/c_1729384452307680.htm
+    effective_date: "2025-01-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - NDSM-ANNUAL-RISK-ASSESSMENT
+      - NDSM-LARGE-PLATFORM-GOVERNANCE
+
+  - id: DESA
+    name_zh: 数据出境安全评估办法
+    url: https://www.cac.gov.cn/2022-07/07/c_1658811536396503.htm
+    effective_date: "2022-09-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - PIPL-CROSSBORDER-CONSENT
+
+  - id: SCC
+    name_zh: 个人信息出境标准合同办法
+    url: https://www.cac.gov.cn/2023-02/24/c_1678884830036813.htm
+    effective_date: "2023-06-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - CROSSBORDER-SCC-FILING
+
+  - id: CROSSBORDER_FLOW
+    name_zh: 促进和规范数据跨境流动规定
+    url: https://www.cac.gov.cn/2024-03/22/c_1712776611775634.htm
+    effective_date: "2024-03-22"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - CROSSBORDER-FLOW-EXEMPTION
+
+  - id: ALG
+    name_zh: 互联网信息服务算法推荐管理规定
+    url: https://www.cac.gov.cn/2022-01/04/c_1642894606364259.htm
+    effective_date: "2022-03-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - ALG-RECOMMENDATION-TRANSPARENCY
+
+  - id: DEEPSYNTH
+    name_zh: 互联网信息服务深度合成管理规定
+    url: https://www.cac.gov.cn/2022-12/11/c_1672221949354811.htm
+    effective_date: "2023-01-10"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - DEEPSYNTH-CONTENT-LABEL
+
+  - id: AIGC
+    name_zh: 生成式人工智能服务管理暂行办法
+    url: https://www.cac.gov.cn/2023-07/13/c_1690898327029107.htm
+    effective_date: "2023-08-15"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - AIGC-PRE-LAUNCH-ASSESSMENT
+
+  - id: GBT35273
+    name_zh: 信息安全技术 个人信息安全规范（GB/T 35273-2020）
+    url: https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=4568F276E0F8346EB0FBA097AA0CE05E
+    effective_date: "2020-10-01"
+    last_verified: ""
+    url_hash: ""
+    note_zh: "国家标准，原文可能需要付费，URL指向国家标准全文公开系统。"
+    related_rules:
+      - GBPI-MINIMUM-NECESSITY
+
+  - id: GBT39335
+    name_zh: 个人信息安全影响评估指南（GB/T 39335-2020）
+    url: https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=AACCDDDB0804CC6F78D3A5E52A04A5B1
+    effective_date: "2020-12-01"
+    last_verified: ""
+    url_hash: ""
+    note_zh: "国家标准，原文可能需要付费，URL指向国家标准全文公开系统。"
+    related_rules:
+      - PIPIA-SCOPE-STANDARD
+
+  - id: TC260_AUDIT
+    name_zh: 网络安全标准实践指南——个人信息保护合规审计要求
+    url: https://www.tc260.org.cn/front/postDetail.html?id=20230120175746
+    effective_date: "2023-01-01"
+    last_verified: ""
+    url_hash: ""
+    related_rules:
+      - AUDIT-SCOPE-STANDARD
+      - PIPL-PERIODIC-AUDIT
+
+  - id: FACEREC
+    name_zh: 人脸识别技术应用安全管理办法
+    url: https://www.cac.gov.cn/2025-03/21/c_1744174262156096.htm
+    effective_date: "2025-06-01"
+    last_verified: ""
+    url_hash: ""
+    note_zh: "由网信办、公安部联合发布（2025-03-21），2025-06-01起施行。适用于在中国境内应用人脸识别技术的主体。"
+    related_rules:
+      - FACEREC-SEPARATE-CONSENT
+
+  - id: CROSSBORDER_CERT
+    name_zh: 个人信息出境认证办法
+    url: https://www.cac.gov.cn/2025-10/17/c_1762449728720008.htm
+    effective_date: "2026-01-01"
+    last_verified: ""
+    url_hash: ""
+    note_zh: "由网信办、市场监管总局联合发布（2025-10-17），2026-01-01起施行。认证证书有效期3年，与标准合同并列适用于同一阈值区间。"
+    related_rules:
+      - CROSSBORDER-CERTIFICATION-OPTION

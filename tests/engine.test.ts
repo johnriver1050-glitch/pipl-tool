@@ -19,6 +19,14 @@ const minimalKb: KnowledgeBase = {
       source: "PIPL 第29条",
       effective_date: "2021-11-01",
       superseded_by: null,
+      category: "sensitive_pi",
+      requirement_level: "mandatory",
+      review_status: "current",
+      article_summary_zh: "处理敏感个人信息应取得单独同意。",
+      applicability_zh: "适用于敏感个人信息处理活动。",
+      exceptions_zh: "应结合具体业务场景判断。",
+      action_items_zh: ["取得单独同意", "完成 PIPIA"],
+      evidence_examples_zh: ["单独同意记录", "PIPIA 报告"],
       when: { "activity.involvesSensitivePi": true },
       then: { requires_separate_consent: true, requires_pipia: true, notice_must_include: ["necessity", "impact_on_rights"] },
       rationale_zh: "处理敏感个人信息应取得单独同意",
@@ -88,6 +96,9 @@ const baseOrg: Organization = {
   handlesImportantData: false,
   piSubjectsCumulative: 5000,
   sensitivePiSubjectsCumulative: 0,
+  providesAlgorithmRecommendation: false,
+  providesDeepSynthesis: false,
+  providesGenerativeAI: false,
 };
 
 const sensitiveActivity: ProcessingActivity = {
@@ -96,6 +107,7 @@ const sensitiveActivity: ProcessingActivity = {
   piTypes: ["biometric"],
   involvesSensitivePi: true,
   involvesMinorsUnder14: false,
+  involvesFaceRecognition: false,
   legalBasis: "consent",
   retentionPeriod: "1年",
   isAutomatedDecisionMaking: false,
@@ -116,8 +128,22 @@ describe("determineCrossBorderMechanism", () => {
     expect(determineCrossBorderMechanism({ ...baseOrg, piSubjectsCumulative: 1_500_000 }, minimalKb)).toBe("security_assessment");
   });
 
+  it("普通个人信息出境阈值边界：100万以内标准合同，超过100万安全评估", () => {
+    expect(determineCrossBorderMechanism({ ...baseOrg, piSubjectsCumulative: 99_999 }, minimalKb)).toBe("exempt");
+    expect(determineCrossBorderMechanism({ ...baseOrg, piSubjectsCumulative: 100_000 }, minimalKb)).toBe("standard_contract");
+    expect(determineCrossBorderMechanism({ ...baseOrg, piSubjectsCumulative: 1_000_000 }, minimalKb)).toBe("standard_contract");
+    expect(determineCrossBorderMechanism({ ...baseOrg, piSubjectsCumulative: 1_000_001 }, minimalKb)).toBe("security_assessment");
+  });
+
   it("敏感信息超1万 → 安全评估", () => {
     expect(determineCrossBorderMechanism({ ...baseOrg, sensitivePiSubjectsCumulative: 15_000 }, minimalKb)).toBe("security_assessment");
+  });
+
+  it("敏感个人信息出境阈值边界：1万以内标准合同，超过1万安全评估", () => {
+    expect(determineCrossBorderMechanism({ ...baseOrg, sensitivePiSubjectsCumulative: 0 }, minimalKb)).toBe("exempt");
+    expect(determineCrossBorderMechanism({ ...baseOrg, sensitivePiSubjectsCumulative: 1 }, minimalKb)).toBe("standard_contract");
+    expect(determineCrossBorderMechanism({ ...baseOrg, sensitivePiSubjectsCumulative: 10_000 }, minimalKb)).toBe("standard_contract");
+    expect(determineCrossBorderMechanism({ ...baseOrg, sensitivePiSubjectsCumulative: 10_001 }, minimalKb)).toBe("security_assessment");
   });
 
   it("10万~100万 → 标准合同", () => {
@@ -145,6 +171,17 @@ describe("evaluate", () => {
     expect(ob?.requiresSeparateConsent).toBe(true);
     expect(ob?.requiresPIPIA).toBe(true);
     expect(ob?.noticeMustInclude).toContain("necessity");
+  });
+
+  it("规则解释元数据会进入义务结果", () => {
+    const result = evaluate(baseOrg, [sensitiveActivity], minimalKb);
+    const ob = result.obligations.find((o) => o.code === "PIPL-SEP-CONSENT-SENSITIVE");
+    expect(ob?.category).toBe("sensitive_pi");
+    expect(ob?.requirementLevel).toBe("mandatory");
+    expect(ob?.reviewStatus).toBe("current");
+    expect(ob?.articleSummaryZh).toContain("单独同意");
+    expect(ob?.actionItemsZh).toContain("完成 PIPIA");
+    expect(ob?.evidenceExamplesZh).toContain("PIPIA 报告");
   });
 
   it("废止规则不被触发", () => {
@@ -187,5 +224,47 @@ describe("evaluate", () => {
     const result = evaluate(baseOrg, [sensitiveActivity], minimalKb);
     expect(result.requiredDocuments).toContain("privacy_policy");
     expect(result.requiredDocuments).toContain("pi_collection_list");
+  });
+
+  it("A1: 零活动时组织级规则仍触发", () => {
+    const kbWithOrgRule: KnowledgeBase = {
+      ...minimalKb,
+      rules: [
+        ...minimalKb.rules,
+        {
+          id: "DPO-REQUIRED",
+          source: "PIPL 第52条",
+          effective_date: "2021-11-01",
+          superseded_by: null,
+          when: { "org.piSubjectsCumulative": ">1000000" },
+          then: {},
+          rationale_zh: "须指定个人信息保护负责人",
+        },
+      ],
+    };
+    const bigOrg: Organization = { ...baseOrg, piSubjectsCumulative: 2_000_000 };
+    const result = evaluate(bigOrg, [], kbWithOrgRule);
+    expect(result.obligations.some((o) => o.code === "DPO-REQUIRED")).toBe(true);
+  });
+
+  it("A1: 组织级规则多活动时只生成一条义务（不重复）", () => {
+    const kbWithOrgRule: KnowledgeBase = {
+      ...minimalKb,
+      rules: [
+        {
+          id: "ALG-TRANSPARENCY",
+          source: "算法推荐管理规定",
+          effective_date: "2022-03-01",
+          superseded_by: null,
+          when: { "org.providesAlgorithmRecommendation": true },
+          then: {},
+          rationale_zh: "须提供算法透明度说明",
+        },
+      ],
+    };
+    const algOrg: Organization = { ...baseOrg, providesAlgorithmRecommendation: true };
+    const result = evaluate(algOrg, [sensitiveActivity, sensitiveActivity], kbWithOrgRule);
+    const hits = result.obligations.filter((o) => o.code === "ALG-TRANSPARENCY");
+    expect(hits).toHaveLength(1);
   });
 });

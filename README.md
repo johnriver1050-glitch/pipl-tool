@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PIPL 个人信息保护合规辅助工具
 
-## Getting Started
+将企业基本情况和个人信息处理活动转化为可解释的合规义务清单，并生成供人工复核的合规文件草稿。这是法律科技作品原型，用于展示法律规则结构化、产品流程设计和工程实现。
 
-First, run the development server:
+[另一个项目：《选择之后》普法互动游戏](https://github.com/johnriver1050-glitch/after-the-choice)
+
+## 核心流程
+
+填写企业与处理活动问卷 → 规则引擎匹配义务 → 查看触发原因及法规来源 → 生成文件草稿 → 导出与本地存档。
+
+- **规则评估**：将法规知识库与评估引擎分离，以 YAML 管理规则，通过 Zod 校验结构。
+- **解释与追溯**：报告展示义务、触发原因、来源及复核信息，便于人工判断适用性。
+- **文件辅助**：提供隐私政策、同意书、影响评估等文件模板及 DOCX 导出能力。
+- **辅助研究**：案例参考、官方来源页面变化检测，以及可选的 AI 义务问答与政策审查。
+- **工作留存**：问卷草稿和报告存档使用浏览器本地存储。
+
+## 技术栈
+
+Next.js 16 / React 19 / TypeScript / Tailwind CSS / Zod / YAML / Vitest。可选 AI 功能通过服务端调用 Anthropic API。
+
+## 本地运行
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开 http://localhost:3000 。基础规则评估不要求配置 AI 密钥。启用 AI 功能时，在项目根目录自行创建 `.env.local`：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```dotenv
+ANTHROPIC_API_KEY=your_api_key_here
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+密钥仅用于服务端，环境文件不提交到仓库。使用 AI 功能时，相应输入会发送给模型服务商，请使用虚构演示数据。
 
-## Learn More
+## 验证
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+当前规则引擎包含 16 项自动化测试。测试通过表明已覆盖场景符合预期，不等于法律结论已经完成专业审核。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 代码导航
 
-## Deploy on Vercel
+| 路径 | 作用 |
+| --- | --- |
+| `app/questionnaire` | 企业与处理活动问卷 |
+| `app/report` | 评估报告及义务展示 |
+| `lib/engine/evaluate.ts` | 规则匹配引擎 |
+| `knowledge-base` | 法规规则、来源及案例 |
+| `lib/templates`、`lib/export` | 模板与文档导出 |
+| `app/api/llm` | 可选 AI 服务接口 |
+| `tests/engine.test.ts` | 规则引擎测试 |
+| `docs/ROADMAP.md` | 后续改进规划 |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 当前边界
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+这是合规辅助原型，输出需由专业人员结合事实及有效法规复核。来源页面变化检测不等同于法规修订认定；部分规则仍需持续复核。当前未作为具备完整访问控制的多用户生产服务部署，GitHub 提供源码展示和本地运行说明。

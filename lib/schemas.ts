@@ -44,6 +44,9 @@ export const OrganizationSchema = z.object({
   handlesImportantData: z.boolean(),
   piSubjectsCumulative: z.number().int().min(0),
   sensitivePiSubjectsCumulative: z.number().int().min(0),
+  providesAlgorithmRecommendation: z.boolean().default(false),
+  providesDeepSynthesis: z.boolean().default(false),
+  providesGenerativeAI: z.boolean().default(false),
 });
 
 export const ProcessingActivitySchema = z.object({
@@ -52,6 +55,7 @@ export const ProcessingActivitySchema = z.object({
   piTypes: z.array(z.string()).min(1),
   involvesSensitivePi: z.boolean(),
   involvesMinorsUnder14: z.boolean(),
+  involvesFaceRecognition: z.boolean().default(false),
   legalBasis: LegalBasisSchema,
   retentionPeriod: z.string().min(1),
   isAutomatedDecisionMaking: z.boolean(),
@@ -74,15 +78,25 @@ export const PersonalInfoTypeSchema = z.object({
 const RuleWhenSchema = z.object({
   "activity.involvesSensitivePi": z.boolean().optional(),
   "activity.hasSharing": z.boolean().optional(),
+  "activity.hasEntrusting": z.boolean().optional(),
   "activity.isPublicDisclosure": z.boolean().optional(),
   "activity.involvesMinorsUnder14": z.boolean().optional(),
   "activity.isAutomatedDecisionMaking": z.boolean().optional(),
   "activity.hasCrossBorder": z.boolean().optional(),
+  "org.isOverseasEntity": z.boolean().optional(),
+  "org.isCIIO": z.boolean().optional(),
+  "org.handlesImportantData": z.boolean().optional(),
+  "org.piSubjectsCumulative": z.string().optional(),
+  "org.providesAlgorithmRecommendation": z.boolean().optional(),
+  "org.providesDeepSynthesis": z.boolean().optional(),
+  "org.providesGenerativeAI": z.boolean().optional(),
+  "activity.involvesFaceRecognition": z.boolean().optional(),
 });
 
 const RuleThenSchema = z.object({
   requires_separate_consent: z.boolean().optional(),
   requires_pipia: z.boolean().optional(),
+  requires_special_rules: z.boolean().optional(),
   notice_must_include: z.array(z.string()).optional(),
   grants_right: z.array(z.string()).optional(),
 });
@@ -92,6 +106,14 @@ export const KbRuleSchema = z.object({
   source: z.string().min(1),
   effective_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   superseded_by: z.string().nullable().optional(),
+  category: z.string().optional(),
+  requirement_level: z.enum(["mandatory", "recommended"]).optional(),
+  review_status: z.enum(["current", "needs_review", "draft"]).optional(),
+  article_summary_zh: z.string().optional(),
+  applicability_zh: z.string().optional(),
+  exceptions_zh: z.string().optional(),
+  action_items_zh: z.array(z.string()).optional(),
+  evidence_examples_zh: z.array(z.string()).optional(),
   when: RuleWhenSchema,
   then: RuleThenSchema,
   rationale_zh: z.string().min(1),
@@ -99,7 +121,7 @@ export const KbRuleSchema = z.object({
 
 const CrossBorderThresholdRuleSchema = z.object({
   mechanism: CrossBorderMechanismSchema,
-  when_any: z.array(z.record(z.string())),
+  when_any: z.array(z.record(z.string(), z.union([z.string(), z.boolean()]))),
 });
 
 const CrossBorderThresholdsSchema = z.object({
@@ -116,7 +138,7 @@ export const KnowledgeBaseSchema = z.object({
   personal_info_types: z.array(PersonalInfoTypeSchema),
   rules: z.array(KbRuleSchema),
   cross_border_thresholds: CrossBorderThresholdsSchema,
-  templates: z.record(z.any()).optional(),
+  templates: z.record(z.string(), z.any()).optional(),
 });
 
 export type KbRule = z.infer<typeof KbRuleSchema>;

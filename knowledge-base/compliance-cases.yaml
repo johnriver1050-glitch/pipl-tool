@@ -1,0 +1,323 @@
+# 国内数据合规典型执法案例库
+# 收录依据：官方执法公告、最高检指导案例、权威媒体报道
+# 仅含 2021-11-01（个保法施行）后适用新法的案例，或对现行法有直接参考价值的案例
+
+cases:
+  - id: DIDI_2022
+    title: 滴滴全球：过度收集敏感个人信息及危害国家数据安全案
+    entity: 滴滴全球股份有限公司
+    regulator: 国家网信办
+    date: "2022-07-21"
+    penalty: "罚款 80.26 亿元；CEO 程维、总裁柳青各罚 100 万元"
+    penalty_amount: 8026000000
+    law_basis:
+      - 网络安全法
+      - 数据安全法
+      - 个人信息保护法
+    violation_summary: >
+      共 16 项违法事实，主要包括：过度收集乘客人脸信息（1.07 亿条）、精准位置（1.67 亿条）、
+      剪切板信息（83.23 亿条）；在未明确告知情况下分析用户出行意图（539.76 亿条）；
+      以明文形式存储司机身份证号（5780 万条）；存在严重影响国家安全的数据处理活动。
+    related_rules:
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - PIPL-SECURITY-MEASURES
+      - DSL-DATA-CLASSIFICATION
+      - DSL-IMPORTANT-DATA-ASSESSMENT
+      - GBPI-MINIMUM-NECESSITY
+      - PIPL-RIGHTS-MECHANISM
+    source_url: "https://www.cac.gov.cn/2022-07/21/c_1660021534306352.htm"
+    lesson: >
+      超大规模平台面临营业额 5% 的顶格处罚，且主要负责人须承担个人连带责任。
+      过度收集敏感信息（位置、人脸）是监管首要打击对象。
+
+  - id: CNKI_2023
+    title: 知网：违反必要原则收集个人信息及未履行用户权利请求案
+    entity: 同方知网（北京）技术有限公司等
+    regulator: 国家网信办
+    date: "2023-09-01"
+    penalty: "罚款 5000 万元（个保法施行以来最高单笔罚款）"
+    penalty_amount: 50000000
+    law_basis:
+      - 网络安全法
+      - 个人信息保护法
+    violation_summary: >
+      旗下 14 款 App 违反必要原则收集个人信息；未公开收集使用规则；
+      未提供账号注销功能；用户注销后未及时删除个人信息。
+    related_rules:
+      - GBPI-MINIMUM-NECESSITY
+      - PIPL-RIGHTS-MECHANISM
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - PIPL-SECURITY-MEASURES
+    source_url: "https://kjt.hubei.gov.cn/kjdt/ztzl/wlaq/rdzx/202309/t20230911_4834124.shtml"
+    lesson: >
+      学术/数据库平台同样受个保法全面约束；未提供注销功能是独立违法行为；
+      处罚金额按"个保法施行以来最高"标准裁量，示范效应极强。
+
+  - id: APP_BATCH_2022
+    title: 国家网信办：集中查处 135 款侵犯个人信息权益违规 App 案
+    entity: 多家 App 运营企业
+    regulator: 国家网信办
+    date: "2022-11-03"
+    penalty: "55 款 App 下架；80 款限期整改"
+    law_basis:
+      - 个人信息保护法
+      - 网络安全法
+    violation_summary: >
+      违规类型包括：强制索要与服务无关的权限；未经单独同意向第三方共享精准位置信息；
+      无隐私政策；超范围收集上传通讯录；App 后台运行时收集个人信息。
+    related_rules:
+      - PIPL-SEP-CONSENT-SHARING
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - GBPI-MINIMUM-NECESSITY
+      - PIPL-RIGHTS-MECHANISM
+    source_url: "https://www.cac.gov.cn/2022-11/03/c_1669106604621340.htm"
+    lesson: >
+      未经单独同意向第三方共享精准位置是最常见的下架原因；
+      隐私政策缺失直接触发下架处置，无整改机会。
+
+  - id: CHILDREN_VIDEO_2022
+    title: 短视频平台：违规收集 14 岁以下儿童信息并算法精准推送案
+    entity: 某知名短视频平台
+    regulator: 最高人民检察院（检察公益诉讼）
+    date: "2022-03-08"
+    penalty: "34 项整改措施；民事损害赔偿"
+    law_basis:
+      - 个人信息保护法
+      - 未成年人保护法
+      - 网络安全法
+    violation_summary: >
+      允许儿童注册账号，在未征得监护人明示同意的情况下收集存储儿童账户、联系方式、
+      人脸特征、声音特征等个人信息；算法向有浏览儿童内容喜好的成年用户定向推送含
+      儿童个人信息的视频，造成 3 名儿童被伤害。
+    related_rules:
+      - PIPL-MINORS-14
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - ALG-RECOMMENDATION-TRANSPARENCY
+    source_url: "https://m.21jingji.com/article/20220308/herald/0db8152591b9bf462019333164b3afec.html"
+    lesson: >
+      处理 14 岁以下儿童信息须获监护人"明示同意"；
+      算法推送含儿童信息的内容可引发检察机关提起公益诉讼，后果不限于行政处罚。
+
+  - id: FACEREC_VENDING_2024
+    title: 自动售货机：未经同意收集消费者人脸信息且未建立影响评估制度案
+    entity: 上海某科技有限公司
+    regulator: 上海网信办
+    date: "2024"
+    penalty: "责令改正、警告"
+    law_basis:
+      - 个人信息保护法
+    violation_summary: >
+      自动售货机在用户付款场景中未经消费者同意收集人脸信息；
+      未建立个人信息保护影响评估（PIPIA）制度。
+    related_rules:
+      - FACEREC-SEPARATE-CONSENT
+      - PIPIA-SCOPE-STANDARD
+      - PIPL-SEP-CONSENT-SENSITIVE
+    source_url: "https://www.cac.gov.cn/2025-02/25/c_1742186054989836.htm"
+    lesson: >
+      公共场所设备（售货机、门禁等）使用人脸识别与 App 同等受约束；
+      须提供不刷脸的替代方案，且需书面同意而非默认收集。
+
+  - id: SDK_SHARING_ONGOING
+    title: 工信部：SDK 未公示、未经同意向第三方传输个人信息系列通报案
+    entity: 多家 App 及 SDK 运营商
+    regulator: 工业和信息化部
+    date: "2023"
+    penalty: "通报批评；限期整改；拒不整改则下架"
+    law_basis:
+      - 个人信息保护法
+      - 网络安全法
+      - 电信和互联网用户个人信息保护规定
+    violation_summary: >
+      SDK 在用户未触发相关功能时后台收集个人信息；App 未在隐私政策中公示所使用的 SDK 列表；
+      未经用户同意将数据传至 SDK 运营方服务器；SDK 强制频繁索取权限。
+    related_rules:
+      - PIPL-ENTRUST-CONTRACT
+      - PIPL-SEP-CONSENT-SHARING
+      - GBPI-MINIMUM-NECESSITY
+    source_url: "https://www.dwcon.cn/post/4562"
+    lesson: >
+      接入第三方 SDK 须签订书面委托合同并在隐私政策中明示 SDK 名称及目的；
+      SDK 的数据行为在法律上视为委托处理，App 运营者承担连带责任。
+
+  - id: ALG_TRANSPARENCY_2023
+    title: 算法推荐服务未向用户提供关闭个性化推荐选项系列通报案
+    entity: 多家内容平台
+    regulator: 国家网信办 / 工业和信息化部
+    date: "2023"
+    penalty: "通报、限期整改"
+    law_basis:
+      - 互联网信息服务算法推荐管理规定
+      - 个人信息保护法
+    violation_summary: >
+      未向用户提供"不针对个人特征"的算法推荐选项；
+      未公开算法推荐服务基本原理；
+      个性化推荐关闭入口不明显或流程繁琐。
+    related_rules:
+      - ALG-RECOMMENDATION-TRANSPARENCY
+      - PIPL-AUTOMATED-DECISION
+    source_url: "https://wjw.xinjiang.gov.cn/hfpc/djwlfz/202302/5d44d534271b46f09d6be8b02fbe08e0.shtml"
+    lesson: >
+      算法推荐服务必须在显著位置提供"一键关闭个性化"功能；
+      仅在设置深处提供选项不满足合规要求。
+
+  - id: CROSSBORDER_LEAK_SHANGHAI_2023
+    title: 上海：数据涉嫌泄露境外及擅自删除数据库案（"一案双罚"）
+    entity: 上海多家企业（脱敏）
+    regulator: 上海网信办
+    date: "2023"
+    penalty: "对企业及直接责任人双重处罚（一案双罚）"
+    law_basis:
+      - 数据安全法
+      - 个人信息保护法
+    violation_summary: >
+      企业数据涉嫌泄露至境外；另有企业发生安全事件时擅自删除数据库，妨碍调查。
+      两案均对企业和直接责任人同时追责。
+    related_rules:
+      - DSL-DATA-CLASSIFICATION
+      - DSL-IMPORTANT-DATA-ASSESSMENT
+      - PIPL-CROSSBORDER-CONSENT
+      - PIPL-SECURITY-MEASURES
+    source_url: "https://www.cac.gov.cn/2024-02/04/c_1708713697217576.htm"
+    lesson: >
+      数据安全法将数据泄露和擅自删除定性为独立违法行为；
+      发生事件时擅自删除证据可能加重处罚，应立即报告并保留现场。
+
+  - id: MINORS_TRAFFICKING_2021
+    title: 非法买卖未成年人个人信息 95 万条刑事及民事公益诉讼案
+    entity: 肖某某等（个人）
+    regulator: 司法机关（刑事追诉 + 民事公益诉讼）
+    date: "2021-02"
+    penalty: "主犯有期徒刑 4 年 3 个月；民事公益诉讼损害赔偿 30 万元"
+    law_basis:
+      - 刑法（侵犯公民个人信息罪）
+      - 民事公益诉讼
+    violation_summary: >
+      建立网络交易平台非法买卖未成年人个人信息 95 万余条，违法所得约 47 万元。
+    related_rules:
+      - PIPL-MINORS-14
+      - PIPL-SECURITY-MEASURES
+    source_url: "https://www.allbrightlaw.com/SH/CN/10475/4a9fa4e63788afcf.aspx"
+    lesson: >
+      未成年人个人信息违法处理可触发刑事追诉（侵犯公民个人信息罪），
+      且附带民事公益诉讼损害赔偿，法律后果叠加。
+
+  - id: BACKGROUND_COLLECTION_2024
+    title: App 后台运行时持续收集与服务无关的应用安装/卸载信息案
+    entity: 北京某科技有限公司
+    regulator: 国家网信办
+    date: "2024"
+    penalty: "责令改正、警告、罚款"
+    law_basis:
+      - 个人信息保护法
+    violation_summary: >
+      用户未使用任何功能、App 仅在后台运行时，持续收集并上传用户手机上其他应用
+      的安装和卸载信息，与 App 自身服务功能无关。
+    related_rules:
+      - GBPI-MINIMUM-NECESSITY
+      - PIPL-SEP-CONSENT-SENSITIVE
+    source_url: "https://www.cac.gov.cn/2025-02/25/c_1742186054989836.htm"
+    lesson: >
+      "最小必要原则"禁止在用户未使用相关功能时采集信息；
+      后台静默收集是执法高频打击对象，技术上可行≠合法可行。
+
+  - id: ACCOUNT_DELETE_2025
+    title: 78 款 App 未提供个人信息删除/更正功能被集中整治案
+    entity: 78 家 App 运营商
+    regulator: 国家网信办
+    date: "2025-02-19"
+    penalty: "78 款责令限期整改；4 款无隐私政策 App 下架"
+    law_basis:
+      - 个人信息保护法
+    violation_summary: >
+      App 内无个人信息删除或更正功能入口；部分 App 完全未提供隐私政策。
+    related_rules:
+      - PIPL-RIGHTS-MECHANISM
+    source_url: "https://www.cac.gov.cn/2025-02/19/c_1741664476228611.htm"
+    lesson: >
+      个保法第四章用户权利（查阅/更正/删除/注销）须在 App 内有明确 UI 入口；
+      这是合规检查最高频核查项之一，非功能性说明需设计成实际可操作的功能。
+
+  - id: FACEREC_CIVIL_GUANGDONG_2024
+    title: 广东：全国首例人脸识别民事公益诉讼——公共场所强制采集人脸信息案
+    entity: 广东某服务场所
+    regulator: 广东检察机关（民事公益诉讼）
+    date: "2024"
+    penalty: "行为补偿金（损害赔偿）；2023 年度最高检十大典型案例"
+    law_basis:
+      - 个人信息保护法
+    violation_summary: >
+      服务场所在无维护公共安全必要的情况下，强制消费者刷脸才能进入；
+      收集的人脸信息未加密传输、违法存储、未定期删除。
+    related_rules:
+      - FACEREC-SEPARATE-CONSENT
+      - PIPL-SEP-CONSENT-SENSITIVE
+      - PIPL-SECURITY-MEASURES
+    source_url: "https://www.spp.gov.cn/spp/zdgz/202403/t20240304_646982.shtml"
+    lesson: >
+      无"公共安全必要"依据的人脸识别属违法强制处理敏感信息；
+      加密存储、定期删除是人脸信息处理的法定要求，否则存储行为本身即违法。
+
+  - id: SHANGHAI_FIRST_PIPL_2023
+    title: 上海网信办：首批依据个保法对知名企业自主办理行政处罚案
+    entity: 多家知名互联网企业（脱敏）
+    regulator: 上海网信办
+    date: "2023"
+    penalty: "行政处罚（系列案件，金额未全部公开）"
+    law_basis:
+      - 个人信息保护法
+    violation_summary: >
+      多家知名企业怠于履行个人信息保护义务，包括未建立完善的内部管理制度、
+      对用户个人信息保护投诉处理不及时等。
+    related_rules:
+      - PIPL-SECURITY-MEASURES
+      - PIPL-PERIODIC-AUDIT
+      - PIPL-RIGHTS-MECHANISM
+    source_url: "https://www.cac.gov.cn/2024-02/04/c_1708713697217576.htm"
+    lesson: >
+      地方网信办已具备独立依据个保法对知名大型企业处罚的执法能力；
+      合规义务不仅来自国家级执法，省级执法同样有处罚权。
+
+  - id: APP_SDK_2025_MAY
+    title: 工信部：15 款 App 及 16 款 SDK 未公示收集规则及未响应用户权利请求案
+    entity: 多家 App 及 SDK 开发商
+    regulator: 工业和信息化部
+    date: "2025-05-06"
+    penalty: "通报批评；限期整改"
+    law_basis:
+      - 个人信息保护法
+      - 电信和互联网用户个人信息保护规定
+    violation_summary: >
+      App 未列明所嵌入 SDK 清单；未向用户提供收集规则；对用户数据权利请求（查阅/删除）
+      无响应机制；SDK 未获用户同意独立采集信息。
+    related_rules:
+      - PIPL-RIGHTS-MECHANISM
+      - PIPL-ENTRUST-CONTRACT
+      - GBPI-MINIMUM-NECESSITY
+    source_url: "https://www.cac.gov.cn/2025-05/06/c_1748239411359045.htm"
+    lesson: >
+      SDK 合规是 App 合规的组成部分；隐私政策中须逐一列明 SDK 及其数据行为；
+      用户权利响应机制须有技术实现，而非仅在政策文本中声明。
+
+  - id: NATIONAL_ENFORCEMENT_2024_ANNUAL
+    title: 2024 年全国网信系统年度执法：4046 家平台受罚、200 款 App 下架
+    entity: 全国各类互联网平台
+    regulator: 全国网信系统
+    date: "2025-02-25"
+    penalty: "4046 家警告或罚款；585 家暂停功能或更新；下架 App 200 款"
+    law_basis:
+      - 网络安全法
+      - 数据安全法
+      - 个人信息保护法
+    violation_summary: >
+      2024 年全年执法数据：约谈 11159 家网站平台；4046 家受罚；
+      关闭违法网站及取消许可超 1 万家。主要违规类型为个人信息保护、
+      数据安全和网络内容安全。
+    related_rules:
+      - PIPL-SECURITY-MEASURES
+      - PIPL-RIGHTS-MECHANISM
+      - DSL-DATA-CLASSIFICATION
+    source_url: "https://www.cac.gov.cn/2025-02/25/c_1742186054989836.htm"
+    lesson: >
+      2024 年执法力度持续加大且常态化；平台规模越大受关注度越高；
+      "被约谈"是处罚前的警示，收到约谈应立即整改，否则直接进入处罚程序。
